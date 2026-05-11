@@ -1,0 +1,22 @@
+{
+  "name": "gpt-image-worker",
+  "version": "1.4.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prebuild-version": "node scripts/gen-version.mjs",
+    "dev": "npm run prebuild-version && wrangler dev --config wrangler.dev.toml",
+    "deploy": "npm run prebuild-version && wrangler deploy --config wrangler.dev.toml",
+    "deploy:public": "npm run prebuild-version && wrangler deploy",
+    "migrate": "wrangler d1 migrations apply DB --config wrangler.dev.toml --remote",
+    "types": "wrangler types"
+  },
+  "dependencies": {
+    "hono": "^4.6.14"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250109.0",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.99.0"
+  }
+}

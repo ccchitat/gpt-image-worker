@@ -1,0 +1,49 @@
+name = "gpt-image-worker"
+main = "src/index.ts"
+compatibility_date = "2024-12-30"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
+
+[assets]
+directory = "./static"
+binding = "ASSETS"
+
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "gpt-image-bucket"
+
+[[kv_namespaces]]
+binding = "SETTINGS"
+id = "3f80c0ac8e004434b3848bd3e46ad6fb"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "gpt-image-db"
+database_id = "4b45a07f-6741-4041-bbb0-959b2b86821b"
+
+[vars]
+DEFAULT_API_URL = "https://api.kksj.org/"
+DEFAULT_API_PATH = "/v1/images/generations"
+DEFAULT_RESPONSES_MODEL = "gpt-5.4"
+ACCESS_KEY_COOKIE_NAME = "gpt_image_access"
+ACCESS_KEY_SESSION_MINUTES = "180"
+ADMIN_KEY_COOKIE_NAME = "gpt_image_admin"
+ADMIN_KEY_SESSION_MINUTES = "180"
+OWNER_COOKIE_NAME = "gpt_image_owner"
+IP_ALLOWLIST = "*"
+TRUST_PROXY_HEADERS = "false"
+MAX_FILE_SIZE_MB = "50"
+# Optional: a custom domain bound to your R2 bucket so public images are served
+# directly from R2 (bypassing the Worker for huge bandwidth savings on the free
+# plan). Leave empty to always serve images through the Worker.
+R2_PUBLIC_DOMAIN = "test.com"
+# Optional: GitHub repo (owner/name) used by the in-app version badge to query
+# the latest release. Defaults to this fork; set to empty string to disable
+# remote version checks.
+GITHUB_REPO = "Xiaobin2333/gpt-image-worker"
